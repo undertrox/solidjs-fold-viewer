@@ -1,10 +1,11 @@
 import type { Component } from "solid-js"
+import FoldFileViewer from "./FoldFileViewer";
 
 const App: Component = () => {
   return (
-    <main class="prose m-auto p-16 text-center">
+    <main class="m-auto p-16 text-center">
       <h1>Fold Viewer</h1>
-      <p>TODO</p>
+      <FoldFileViewer/>
     </main>
   )
 }

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@solid-primitives/upload':
+        specifier: ^0.0.117
+        version: 0.0.117(solid-js@1.8.8)
       fold:
         specifier: ^0.12.0
         version: 0.12.0
@@ -515,8 +518,18 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
+  '@solid-primitives/upload@0.0.117':
+    resolution: {integrity: sha512-szDksm4u67JgiMtkpX8RPccxqfid4OCQ/zpJ1yB1PMFmenLjz8YKldGIIt+Yn3bEcfHBbdkPa2uu/y2FAdPeSw==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
   '@solid-primitives/utils@6.2.1':
     resolution: {integrity: sha512-TsecNzxiO5bLfzqb4OOuzfUmdOROcssuGqgh5rXMMaasoFZ3GoveUgdY1wcf17frMJM7kCNGNuK34EjErneZkg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
+  '@solid-primitives/utils@6.2.3':
+    resolution: {integrity: sha512-CqAwKb2T5Vi72+rhebSsqNZ9o67buYRdEJrIFzRXz3U59QqezuuxPsyzTSVCacwS5Pf109VRsgCJQoxKRoECZQ==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -2085,7 +2098,16 @@ snapshots:
       '@solid-primitives/utils': 6.2.1(solid-js@1.8.8)
       solid-js: 1.8.8
 
+  '@solid-primitives/upload@0.0.117(solid-js@1.8.8)':
+    dependencies:
+      '@solid-primitives/utils': 6.2.3(solid-js@1.8.8)
+      solid-js: 1.8.8
+
   '@solid-primitives/utils@6.2.1(solid-js@1.8.8)':
+    dependencies:
+      solid-js: 1.8.8
+
+  '@solid-primitives/utils@6.2.3(solid-js@1.8.8)':
     dependencies:
       solid-js: 1.8.8
 

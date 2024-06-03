@@ -35,6 +35,7 @@ type FOLD = FOLDFrame & {
   file_classes?: string[];
   file_frames?: FOLDChildFrame[];
 };
+
 declare module "fold/lib/convert.js" {
 
   const convert: {

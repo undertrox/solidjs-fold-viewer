@@ -1,4 +1,5 @@
 import {Component, onMount} from "solid-js";
+import * as geom from "fold/lib/geom.js";
 
 const FoldFileViewer: Component = () => {
     let canvas: HTMLCanvasElement;
@@ -16,6 +17,9 @@ const FoldFileViewer: Component = () => {
             clearCanvas();
         }).observe(canvasDiv);
     });
+
+    console.log(geom);
+
     return (
     <div class="self-stretch">
         <div ref={canvasDiv}>

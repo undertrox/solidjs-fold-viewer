@@ -6,7 +6,7 @@ const FoldFileViewer: Component = () => {
     let canvas: HTMLCanvasElement;
     let canvasDiv: HTMLDivElement;
 
-    const [transform, setTransform] = createSignal<[number, number]>([300,300]);
+    const [transform, setTransform] = createSignal<[number, number]>([250,250]);
     const { files, selectFiles } = createFileUploader();
     const [foldFile, setFoldFile] = createSignal<FOLD>();
 
@@ -65,6 +65,8 @@ const FoldFileViewer: Component = () => {
             });
         }}>upload</button>
         <button class="btn" onClick={() => {
+            canvas.width = 900;
+            canvas.height = 600;
             let iterations = 150;
             let canvasRenderer = renderer();
             const t1 = performance.now();

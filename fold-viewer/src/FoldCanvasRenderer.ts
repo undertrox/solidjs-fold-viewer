@@ -26,17 +26,17 @@ export class FoldCanvasRenderer {
     const [translateX, translateY] = this.translation;
     ctx.scale(this.zoom, this.zoom);
     ctx.translate(translateX, translateY);
-    this.foldFile.edges_vertices.forEach(([i1, i2], index) => {
-      const p1 = this.foldFile.vertices_coords[i1];
-      const p2 = this.foldFile.vertices_coords[i2];
-      ctx.strokeStyle = this.colors[this.foldFile.edges_assignment[index]];
-      let [x1, y1] = p1;
-      let [x2, y2] = p2;
+    let edges_vertices = this.foldFile.edges_vertices;
+    for (let i = 0; i < edges_vertices.length; i++) {
+      let [i1, i2] = edges_vertices[i];
+      const [x1, y1] = this.foldFile.vertices_coords[i1];
+      const [x2, y2] = this.foldFile.vertices_coords[i2];
+      ctx.strokeStyle = this.colors[this.foldFile.edges_assignment[i]];
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
       ctx.stroke();
-    })
+    }
     ctx.restore();
   }
 }

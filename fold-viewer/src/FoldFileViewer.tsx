@@ -1,33 +1,27 @@
 import { Component, createEffect, createSignal, onMount } from "solid-js"
-import * as geom from "fold/lib/geom.js";
 import { createFileUploader } from "@solid-primitives/upload";
+import { FoldCanvasRenderer } from "./FoldCanvasRenderer"
 
 const FoldFileViewer: Component = () => {
     let canvas: HTMLCanvasElement;
     let canvasDiv: HTMLDivElement;
 
+    const [transform, setTransform] = createSignal<[number, number]>([0,0]);
+    const { files, selectFiles } = createFileUploader();
+    const [foldFile, setFoldFile] = createSignal<FOLD>();
+
+    const [renderer, setRenderer] = createSignal<FoldCanvasRenderer>();
+
     let updateCanvas = () => {
-        let ctx = canvas.getContext("2d")
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        const fold = foldFile();
-        if (fold == null) {return;}
-        ctx.save();
-        const [translateX, translateY] = transform();
-        ctx.translate(translateX, translateY);
-        fold.edges_vertices.forEach(([i1, i2], index) => {
-            const p1 = fold.vertices_coords[i1];
-            const p2 = fold.vertices_coords[i2];
-            ctx.strokeStyle = fold.edges_assignment[index] == "M"? "red" : "blue";
-            let [x1, y1] = p1;
-            let [x2, y2] = p2;
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.stroke();
-        })
-        ctx.restore();
+        renderer().render();
     };
+    createEffect(() => {
+        setRenderer(new FoldCanvasRenderer(foldFile(), canvas));
+    })
+    createEffect(() => {
+        renderer().translation = transform();
+        updateCanvas();
+    })
 
     onMount(() => {
         new ResizeObserver(() => {
@@ -36,12 +30,6 @@ const FoldFileViewer: Component = () => {
             updateCanvas();
         }).observe(canvasDiv);
     });
-    const [transform, setTransform] = createSignal<[number, number]>([0,0]);
-    const { files, selectFiles } = createFileUploader();
-    const [foldFile, setFoldFile] = createSignal<FOLD>();
-    createEffect(() => {
-        updateCanvas();
-    })
     return (
     <div class="self-stretch">
         <div ref={canvasDiv}>

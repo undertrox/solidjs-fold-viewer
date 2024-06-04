@@ -39,6 +39,13 @@ const FoldFileViewer: Component = () => {
                 translateX += evt.movementX;
                 translateY += evt.movementY;
                 setTransform([translateX, translateY]);
+            }} onwheel={(evt)=> {
+                if (evt.deltaY > 0) {
+                    renderer().zoom /= 1.3;
+                } else {
+                    renderer().zoom *= 1.3;
+                }
+                renderer().render();
             }}/>
         </div>
         <button class="btn" onClick={() => {

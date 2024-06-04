@@ -2,7 +2,7 @@ export class FoldCanvasRenderer {
   private readonly canvas: HTMLCanvasElement;
   private readonly foldFile: FOLD;
   translation: [number, number] = [0,0];
-  private zoom: number = 1;
+  zoom: number = 1;
   private zoomCenter: [number, number] = [0,0];
 
   private colors: {[key: string]: string} = {
@@ -24,6 +24,7 @@ export class FoldCanvasRenderer {
     if (this.foldFile == null) {return;}
     ctx.save();
     const [translateX, translateY] = this.translation;
+    ctx.scale(this.zoom, this.zoom);
     ctx.translate(translateX, translateY);
     this.foldFile.edges_vertices.forEach(([i1, i2], index) => {
       const p1 = this.foldFile.vertices_coords[i1];

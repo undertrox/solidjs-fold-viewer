@@ -2,3 +2,5 @@ optimization;lastcommit;browser;frames;time;cp;canvasWidth;canvasHeight
 none;836579362407d7e9ebddf769b141d6e410d4f224;firefox;150;7058;8lobster.fold;900;600
 indexed_for_loop;836579362407d7e9ebddf769b141d6e410d4f224;firefox;150;7058;8lobster.fold;900;600
 eliminate_extra_var;836579362407d7e9ebddf769b141d6e410d4f224;firefox;150;7019;8lobster.fold;900;600
+batch_paths;841ba6aca6e317dfe0716b54d7c95b02cc19cf23;firefox;150;687;8lobster.fold;900;600
+extract_lines_method;841ba6aca6e317dfe0716b54d7c95b02cc19cf23;firefox;150;630;8lobster.fold;900;600

@@ -6,7 +6,7 @@ const FoldFileViewer: Component = () => {
     let canvas: HTMLCanvasElement;
     let canvasDiv: HTMLDivElement;
 
-    const [transform, setTransform] = createSignal<[number, number]>([0,0]);
+    const [transform, setTransform] = createSignal<[number, number]>([300,300]);
     const { files, selectFiles } = createFileUploader();
     const [foldFile, setFoldFile] = createSignal<FOLD>();
 
@@ -64,6 +64,19 @@ const FoldFileViewer: Component = () => {
                 fileReader.readAsText(file.file)
             });
         }}>upload</button>
+        <button class="btn" onClick={() => {
+            let iterations = 150;
+            let canvasRenderer = renderer();
+            const t1 = performance.now();
+            for (let i = 0; i < iterations; i++) {
+                canvasRenderer.render();
+            }
+            const t2 = performance.now();
+            const time = t2 - t1;
+            console.log(`rendering ${iterations} frames took ${time} ms. (${time/iterations} ms per frame, ${1000/(time/iterations)} fps`);
+
+            console.log(`firefox;${iterations};${time};${files()[0].file.name};${canvas.width};${canvas.height}`)
+        }}>benchmark</button>
     </div>
     );
 }

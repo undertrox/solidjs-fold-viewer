@@ -33,6 +33,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.16(postcss@8.4.33)
+      benchmark.ts:
+        specifier: ^1.0.1
+        version: 1.0.1
       daisyui:
         specifier: ^4.5.0
         version: 4.5.0(postcss@8.4.33)
@@ -699,6 +702,9 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  benchmark.ts@1.0.1:
+    resolution: {integrity: sha512-oid4GgB0ACIxQXk+Wj6lQgmvnrdahGxRkccDmwGIHM/4OX4s9nm03KIHGtrA1qB4iMGiaU1cs+HsHLl3QuG6fg==}
 
   binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
@@ -2310,6 +2316,8 @@ snapshots:
       babel-plugin-jsx-dom-expressions: 0.37.11(@babel/core@7.23.7)
 
   balanced-match@1.0.2: {}
+
+  benchmark.ts@1.0.1: {}
 
   binary-extensions@2.2.0: {}
 

@@ -6,20 +6,19 @@ const FoldFileViewer: Component = () => {
     let canvas: HTMLCanvasElement;
     let canvasDiv: HTMLDivElement;
 
-    const [transform, setTransform] = createSignal<[number, number]>([250,250]);
     const { files, selectFiles } = createFileUploader();
     const [foldFile, setFoldFile] = createSignal<FOLD>();
 
     const [renderer, setRenderer] = createSignal<FoldCanvasRenderer>();
 
     let updateCanvas = () => {
-        renderer().render();
+        renderer().requestRender();
     };
     createEffect(() => {
         setRenderer(new FoldCanvasRenderer(foldFile(), canvas));
     })
     createEffect(() => {
-        renderer().translation = transform();
+        let r = renderer();
         updateCanvas();
     })
 
@@ -35,17 +34,18 @@ const FoldFileViewer: Component = () => {
         <div ref={canvasDiv}>
             <canvas ref={canvas} width="1000" height="600" onMouseMove={(evt) => {
                 if (!(evt.buttons & 1)){return;}
-                let [translateX, translateY] = transform();
-                translateX += evt.movementX;
-                translateY += evt.movementY;
-                setTransform([translateX, translateY]);
+                let r = renderer();
+                r.transform.offsetX += evt.movementX;
+                r.transform.offsetY += evt.movementY;
+                r.requestRender();
             }} onwheel={(evt)=> {
+                renderer().transform.setCenter(evt.x, evt.y);
                 if (evt.deltaY > 0) {
-                    renderer().zoom /= 1.3;
+                    renderer().transform.zoom /= 1.3;
                 } else {
-                    renderer().zoom *= 1.3;
+                    renderer().transform.zoom *= 1.3;
                 }
-                renderer().render();
+                renderer().requestRender();
             }}/>
         </div>
         <button class="btn" onClick={() => {

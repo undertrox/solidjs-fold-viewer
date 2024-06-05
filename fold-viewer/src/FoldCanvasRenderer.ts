@@ -1,10 +1,11 @@
+import { Transform } from "./Transform"
+
 type Line = [number, number, number, number];
 
 export class FoldCanvasRenderer {
   private readonly canvas: HTMLCanvasElement;
   private readonly foldFile: FOLD;
-  translation: [number, number] = [0,0];
-  zoom: number = 1;
+  transform: Transform = new Transform();
   private mLines: Line[] = [];
   private vLines: Line[] = [];
   private bLines: Line[] = [];
@@ -33,30 +34,25 @@ export class FoldCanvasRenderer {
   }
 
   public render() : void {
-    requestAnimationFrame(() => {
-      let ctx = this.canvas.getContext("2d")
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-      if (this.foldFile == null) {return;}
-      ctx.save();
-      const [translateX, translateY] = this.translation;
-      ctx.scale(this.zoom, this.zoom);
-      ctx.translate(translateX, translateY);
+    let ctx = this.canvas.getContext("2d")
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    if (this.foldFile == null) {return;}
 
-      this.renderLines(ctx, "blue", this.vLines);
-      this.renderLines(ctx, "red", this.mLines);
-      this.renderLines(ctx, "black", this.bLines);
+    this.renderLines(ctx, "blue", this.vLines);
+    this.renderLines(ctx, "red", this.mLines);
+    this.renderLines(ctx, "black", this.bLines);
+  }
 
-      ctx.restore();
-    });
-
+  public requestRender(): void {
+    requestAnimationFrame(this.render.bind(this));
   }
 
   private renderLines(ctx: CanvasRenderingContext2D, strokeStyle: string, lines: Line[]) : void {
     ctx.strokeStyle = strokeStyle;
     ctx.beginPath();
     for (let i = 0; i < lines.length; i++) {
-      let [x1, y1, x2, y2] = lines[i];
+      let [x1, y1, x2, y2] = this.transform.lineToScreenCoords(lines[i]);
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
     }

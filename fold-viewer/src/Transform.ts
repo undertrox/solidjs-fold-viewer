@@ -15,11 +15,11 @@ export class Transform {
   }
 
   public lineToScreenCoords(line: [number, number, number, number]) : [number, number, number, number] {
-    let [x1, y1, x2, y2] = line;
-    x1 = (x1 - this.cameraCenterX)*this.zoom + this.offsetX;
-    x2 = (x2 - this.cameraCenterX)*this.zoom + this.offsetX;
-    y1 = (y1 - this.cameraCenterY)*this.zoom + this.offsetY;
-    y2 = (y2 - this.cameraCenterY)*this.zoom + this.offsetY;
+    //let [x1, y1, x2, y2] = line;
+    let x1 = (line[0] - this.cameraCenterX)*this.zoom + this.offsetX;
+    let y1 = (line[1] - this.cameraCenterY)*this.zoom + this.offsetY;
+    let x2 = (line[2] - this.cameraCenterX)*this.zoom + this.offsetX;
+    let y2 = (line[3] - this.cameraCenterY)*this.zoom + this.offsetY;
     return [x1, y1, x2, y2];
   }
 

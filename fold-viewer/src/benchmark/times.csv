@@ -5,4 +5,6 @@ eliminate_extra_var;836579362407d7e9ebddf769b141d6e410d4f224;firefox;150;7019;8l
 batch_paths;841ba6aca6e317dfe0716b54d7c95b02cc19cf23;firefox;150;687;8lobster.fold;900;600
 extract_lines_method;841ba6aca6e317dfe0716b54d7c95b02cc19cf23;firefox;150;630;8lobster.fold;900;600
 custom_transform;841ba6aca6e317dfe0716b54d7c95b02cc19cf23;firefox;150;1310;8lobster.fold;900;600
-unroll_custom_line_transform;841ba6aca6e317dfe0716b54d7c95b02cc19cf23;firefox;150;951;8lobster.fold;900;600
+unroll_custom_line_transform;513f9112174dd0e7b0d7c672545b26857f811483;firefox;150;951;8lobster.fold;900;600
+remove_destructure_in_transform;513f9112174dd0e7b0d7c672545b26857f811483;firefox;150;806;8lobster.fold;900;600
+skip_tiny_lines;513f9112174dd0e7b0d7c672545b26857f811483;firefox;150;797;8lobster.fold;900;600

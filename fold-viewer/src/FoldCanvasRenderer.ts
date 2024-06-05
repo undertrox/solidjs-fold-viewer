@@ -53,6 +53,9 @@ export class FoldCanvasRenderer {
     ctx.beginPath();
     for (let i = 0; i < lines.length; i++) {
       let [x1, y1, x2, y2] = this.transform.lineToScreenCoords(lines[i]);
+      if (((x1-x2)**2 + (y1-y2)**2 ) < 1 && i % 5 != 0){ // skip line if it is less than 1px
+        continue;
+      }
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
     }

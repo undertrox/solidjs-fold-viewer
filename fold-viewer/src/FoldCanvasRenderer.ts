@@ -15,6 +15,7 @@ export class FoldCanvasRenderer {
   private readonly resizeObserver: ResizeObserver;
   private lastRenderRect: [number, number, number, number] = [0,0,0,0];
   private cacheData: ImageData;
+  private firstRender: boolean = true;
 
   constructor(foldFile: FOLD, canvas: HTMLCanvasElement) {
     this.foldFile = foldFile;
@@ -53,7 +54,8 @@ export class FoldCanvasRenderer {
 
     let t = this.tmpTransform;
     ctx.fillStyle = "white";
-    if (t.zoom != this.transform.zoom) {
+    if (t.zoom != this.transform.zoom || this.firstRender) {
+      this.firstRender = false;
       this.lastRenderRect = [0,0,0,0];
       ctx.fillRect(0, 0, this.tmpCanvas.width, this.tmpCanvas.height);
     } else {
@@ -131,29 +133,35 @@ export class FoldCanvasRenderer {
   }
 
   public requestRender(): void {
-    if (this.needsRerender()){
-      this.cacheRender();
-    }
-    requestAnimationFrame(this.renderCachedImage.bind(this));
+    requestAnimationFrame(this.render.bind(this));
+  }
+  private mightBeInRect(line: [number, number, number, number], rect: [number, number, number, number]) {
+    let [cs1, cs2] = this.outCodes(line, rect);
+    return (cs1 & cs2) === 0;
+  }
+
+  private outCodes(line: [number, number, number, number], rect: [number, number, number, number]): [number, number] {
+    let cs1 = +(rect[0] > line[0]) | (+(rect[2] < line[0]) << 1) | (+(rect[1] > line[1]) << 2) | (+(rect[3] < line[1]) << 3);
+    let cs2 = +(rect[0] > line[2]) | (+(rect[2] < line[2]) << 1) | (+(rect[1] > line[3]) << 2) | (+(rect[3] < line[3]) << 3);
+    return [cs1, cs2];
+  }
+
+  private isInRect(line: [number, number, number, number], rect: [number, number, number, number]) {
+    let [cs1, cs2] = this.outCodes(line, rect);
+    return (cs1 | cs2) === 0;
   }
 
   private renderLines(ctx: CanvasRenderingContext2D, strokeStyle: string, lines: Line[], transform: Transform) : void {
     ctx.strokeStyle = strokeStyle;
     ctx.beginPath();
-    let [crx, cry, cr2x, cr2y] = this.getRenderRect(transform);
-
-    let [rx, ry, r2x, r2y] = this.lastRenderRect;
-    for (let i = 0; i < lines.length; i++) {
+    let rect = this.getRenderRect(transform);
+    for (let i = 0; i < lines.length; i+= 1) {
       let line = lines[i];
-      let cs1 = +(crx < line[0]) & (+(cr2x > line[0]) << 1) & (+(cry < line[1]) << 2) & (+(cr2y > line[0]) << 3);
-      let cs2 = +(crx < line[2]) & (+(cr2x > line[2]) << 1) & (+(cry < line[3]) << 2) & (+(cr2y > line[3]) << 3);
-      if ((cs1 & cs2) !== 0) {
-        continue;
+      if (!this.mightBeInRect(line, rect)) {
+        continue; // definitely outside of screen
       }
-      if (rx != r2x && ry != r2y && (rx < lines[i][0] && r2x > lines[i][0] && ry < lines[i][1] && r2y > lines[i][1]) ) {
-        if ((rx < lines[i][2] && r2x > lines[i][2] && ry < lines[i][3] && r2y > lines[i][3]) ) {
-          continue;
-        }
+      if (this.isInRect(line, this.lastRenderRect)) {
+        continue; // part of last cache render, no need to rerender
       }
       let [x1, y1, x2, y2] = transform.lineToScreenCoords(lines[i]);
       if (((x1-x2)**2 + (y1-y2)**2 ) < 1 && i % 5 != 0){ // skip some lines if they are less than 1px

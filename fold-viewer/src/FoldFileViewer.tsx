@@ -19,6 +19,8 @@ const FoldFileViewer: Component = () => {
     })
     createEffect(() => {
         let r = renderer();
+        r.transform.zoom = 0.9;
+        r.fullRender();
         updateCanvas();
     })
 
